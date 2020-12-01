@@ -37,6 +37,9 @@ run_analysis <- function(){
   library(dplyr)
   table_df <- tbl_df(mean_std)
   group <- group_by(table_df, y_label, subject_number)
-  summ <-summarise_at(group, 2:79, mean)
+  
+  summ<-table_df %>%
+    group_by(y_label, subject_number) %>%
+    summarise(across(contains(c('mean','std')), mean, .names = "mean_{.col}"))
   summ
 }
